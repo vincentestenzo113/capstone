@@ -1,28 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
-  const [parkingSlots, setParkingSlots] = useState(50);
+  const [rfid, setRfid] = useState('');
+  const [message, setMessage] = useState('');
+  const [slotsLeft, setSlotsLeft] = useState(null);
 
-  useEffect(() => {
-    // Fetch available parking slots from the backend
-    axios.get('/api/parking-slots')
+  // Function to handle parking entry
+  const handleEnter = () => {
+    axios.post('http://<Raspberry_Pi_IP>:5000/api/parking/enter', { rfid })  // Adjust the URL to your Pi's IP
       .then(response => {
-        setParkingSlots(response.data.availableSlots);
+        setMessage(response.data.message);
+        setSlotsLeft(response.data.slots_left);
       })
       .catch(error => {
-        console.log(error);
+        setMessage(error.response?.data?.error || 'Error entering parking');
       });
-  }, []);
+  };
+
+  // Function to handle parking exit
+  const handleExit = () => {
+    axios.post('http://<Raspberry_Pi_IP>:5000/api/parking/exit', { rfid })  // Adjust the URL to your Pi's IP
+      .then(response => {
+        setMessage(response.data.message);
+        setSlotsLeft(response.data.slots_left);
+      })
+      .catch(error => {
+        setMessage(error.response?.data?.error || 'Error exiting parking');
+      });
+  };
 
   return (
     <div>
-      <h2>YUSTP PARKTRACK</h2>
-      <p>Available Parking Slots: {parkingSlots}</p>
-      <Link to="/profile">Go to Profile</Link>
-      <br />
-      <Link to="/incident-report">Report an Incident</Link>
+      <h1>Parking Dashboard</h1>
+      <input 
+        type="text" 
+        placeholder="Enter RFID" 
+        value={rfid} 
+        onChange={(e) => setRfid(e.target.value)} 
+      />
+      <button onClick={handleEnter}>Enter Parking</button>
+      <button onClick={handleExit}>Exit Parking</button>
+
+      <p>{message}</p>
+      {slotsLeft !== null && <p>Slots left: {slotsLeft}</p>}
     </div>
   );
 };

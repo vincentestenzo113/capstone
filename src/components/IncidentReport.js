@@ -3,24 +3,24 @@ import axios from 'axios';
 
 const IncidentReport = () => {
   const [studentId, setStudentId] = useState('');
+  const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
-  const [description, setDescription] = useState(''); // New state for description
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append('studentId', studentId);
+    formData.append('description', description);
     formData.append('photo', photo);
-    formData.append('description', description); // Append description to form data
 
-    axios.post('/api/incident-report', formData)
+    axios.post('http://<Raspberry_Pi_IP>:5000/api/incident-report', formData)  // Adjust the URL to your Pi's IP
       .then(response => {
-        alert('Report submitted successfully!');
+        setMessage('Incident report submitted successfully!');
       })
       .catch(error => {
-        setError('You can only submit one report.');
+        setMessage(error.response?.data?.error || 'Error submitting incident report');
       });
   };
 
@@ -38,6 +38,14 @@ const IncidentReport = () => {
           />
         </div>
         <div>
+          <label>Description</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+        </div>
+        <div>
           <label>Upload Photo</label>
           <input 
             type="file" 
@@ -45,18 +53,9 @@ const IncidentReport = () => {
             required 
           />
         </div>
-        <div>
-          <label>Description</label> {/* Description box */}
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            placeholder="Describe the incident in detail..."
-          />
-        </div>
-        {error && <div style={{ color: 'red' }}>{error}</div>}
         <button type="submit">Submit</button>
       </form>
+      <p>{message}</p>
     </div>
   );
 };
