@@ -12,8 +12,18 @@ const Page1 = () => {
     email: 'johndoe@example.com',
   };
 
+  const handleLogout = () => {
+    // Implement your logout logic here (e.g., clear user session, redirect to login page)
+    // For example:
+    // localStorage.removeItem('user');
+    navigate('/login'); // Change this to the actual path for your login page
+  };
+
   return (
     <div className="login-container">
+      <button className="logout-button" onClick={handleLogout}>
+        Logout
+      </button>
       <h2 className="login-header">User Information</h2>
       <div className="user-info">
         <p><strong>Student ID:</strong> {userInfo.studentId}</p>

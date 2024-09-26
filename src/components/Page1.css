@@ -5,6 +5,7 @@
     justify-content: center;
     height: 100vh;
     background-color: white;
+    position: relative; /* Added to allow absolute positioning of logout button */
 }
 
 .login-header {
@@ -83,3 +84,18 @@
     margin-top: 20px;
 }
 
+.logout-button {
+    position: absolute; 
+    top: 20px; 
+    right: 20px; 
+    padding: 10px 15px; 
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #ff1a1a;
+}
