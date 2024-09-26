@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './IncidentReport.css'; // Ensure to import your CSS file
 
 const IncidentReport = () => {
   const [studentId, setStudentId] = useState('');
@@ -15,9 +16,13 @@ const IncidentReport = () => {
     formData.append('description', description);
     formData.append('photo', photo);
 
-    axios.post('http://<Raspberry_Pi_IP>:5000/api/incident-report', formData)  // Adjust the URL to your Pi's IP
+    axios.post('/api/incident-report', formData) // Adjusted URL to be relative
       .then(response => {
         setMessage('Incident report submitted successfully!');
+        // Clear form after submission
+        setStudentId('');
+        setDescription('');
+        setPhoto(null);
       })
       .catch(error => {
         setMessage(error.response?.data?.error || 'Error submitting incident report');
@@ -25,37 +30,42 @@ const IncidentReport = () => {
   };
 
   return (
-    <div>
-      <h2>Incident Report</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Student ID</label>
+    <div className="login-container">
+      <h2 className="login-header">Incident Report</h2>
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-group">
+          <label className="form-label">Student ID</label>
           <input 
             type="text" 
             value={studentId} 
             onChange={(e) => setStudentId(e.target.value)} 
             required 
+            className="form-input"
           />
         </div>
-        <div>
-          <label>Description</label>
+        <div className="form-group">
+          <label className="form-label">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
+            className="form-input"
           />
         </div>
-        <div>
-          <label>Upload Photo</label>
+        <div className="form-group">
+          <label className="form-label">Upload Photo</label>
           <input 
             type="file" 
             onChange={(e) => setPhoto(e.target.files[0])} 
             required 
+            className="form-input"
           />
         </div>
-        <button type="submit">Submit</button>
+        <div className="button-group">
+          <button type="submit" className="submit-button">Submit</button>
+        </div>
       </form>
-      <p>{message}</p>
+      {message && <p className="message">{message}</p>}
     </div>
   );
 };

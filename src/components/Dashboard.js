@@ -1,49 +1,28 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import './Dashboard.css';
 
 const Dashboard = () => {
-  const [rfid, setRfid] = useState('');
-  const [message, setMessage] = useState('');
-  const [slotsLeft, setSlotsLeft] = useState(null);
-
-  // Function to handle parking entry
-  const handleEnter = () => {
-    axios.post('http://<Raspberry_Pi_IP>:5000/api/parking/enter', { rfid })  // Adjust the URL to your Pi's IP
-      .then(response => {
-        setMessage(response.data.message);
-        setSlotsLeft(response.data.slots_left);
-      })
-      .catch(error => {
-        setMessage(error.response?.data?.error || 'Error entering parking');
-      });
-  };
-
-  // Function to handle parking exit
-  const handleExit = () => {
-    axios.post('http://<Raspberry_Pi_IP>:5000/api/parking/exit', { rfid })  // Adjust the URL to your Pi's IP
-      .then(response => {
-        setMessage(response.data.message);
-        setSlotsLeft(response.data.slots_left);
-      })
-      .catch(error => {
-        setMessage(error.response?.data?.error || 'Error exiting parking');
-      });
-  };
+  // Sample number of parking slots left (hardcoded for testing)
+  const [slotsLeft] = useState(10);
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <h1>Parking Dashboard</h1>
-      <input 
-        type="text" 
-        placeholder="Enter RFID" 
-        value={rfid} 
-        onChange={(e) => setRfid(e.target.value)} 
-      />
-      <button onClick={handleEnter}>Enter Parking</button>
-      <button onClick={handleExit}>Exit Parking</button>
+    <div className="dashboard-container">
+      <header className="dashboard-header">
+        <h1>USTP PARKTRACK</h1>
+        <div className="auth-buttons">
+          <button className="auth-button" onClick={() => navigate('/login')}>Login</button>
+          <button className="auth-button" onClick={() => navigate('/register')}>Register</button>
+        </div>
+      </header>
 
-      <p>{message}</p>
-      {slotsLeft !== null && <p>Slots left: {slotsLeft}</p>}
+      <div className="dashboard-content">
+        <div className="slots-container">
+          <p className="slots-text">SLOTS LEFT</p>
+          <h2 className="slots-number">{slotsLeft}</h2>
+        </div>
+      </div>
     </div>
   );
 };

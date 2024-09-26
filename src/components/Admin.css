@@ -1,0 +1,32 @@
+.admin-container {
+    padding: 20px;
+    background-color: white;
+    border: 3px solid #060E57;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-container h2 {
+    color: #060E57;
+}
+
+.admin-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.admin-container li {
+    border: 1px solid #060E57;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.user-list {
+    margin-top: 20px;
+}
+
+.user-list h3 {
+    color: #060E57;
+}

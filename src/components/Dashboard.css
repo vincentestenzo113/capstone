@@ -1,0 +1,75 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+    overflow: hidden; /* Prevents overflow of the dashboard */
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    background-color: #060E57;
+    color: white;
+}
+
+h1 {
+    margin: 0;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-button {
+    padding: 10px 20px;
+    background-color: white;
+    color: #060E57;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 20px;
+}
+
+.auth-button:hover {
+    background-color: #f0f0f0;
+}
+
+.dashboard-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    text-align: center;
+    max-width: 100%; /* Prevents the content from exceeding the width */
+    overflow: auto; /* Adds scroll if necessary, but ideally it should fit */
+    padding: 10px; /* Adds some space to the edges */
+}
+
+.slots-container {
+    border: 3px solid #060E57;
+    border-radius: 15px;
+    padding: 20px 40px;
+    width: 100%; /* Use 100% width for better responsiveness */
+    max-width: 300px; /* Maximum width for the container */
+    background-color: white;
+    text-align: center;
+}
+
+.slots-text {
+    font-size: 24px;
+    color: #060E57;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.slots-number {
+    font-size: 72px;
+    font-weight: bold;
+    color: #060E57;
+    margin: 0;
+}
