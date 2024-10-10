@@ -1,3 +1,4 @@
+/* Styles specific to the Login component */
 .login-container {
     display: flex;
     flex-direction: column;
@@ -5,6 +6,7 @@
     justify-content: center;
     height: 100vh;
     background-color: white;
+    position: relative; /* Allows for absolute positioning of children */
 }
 
 .login-header {
@@ -75,5 +77,25 @@
 .message {
     margin-top: 10px;
     text-align: center;
-    color: green; /* You can customize this for success messages */
+    color: green; /* Customize this for success messages */
+}
+
+/* Button group styles specifically for the Login component */
+.login-button-group {
+    position: absolute;
+    top: 20px; /* Adjust this value to move it up/down */
+    right: 20px; /* Adjust this value to move it left/right */
+}
+
+.back-button {
+    background-color: #060E57; /* Your button color */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
 }

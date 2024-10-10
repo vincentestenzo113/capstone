@@ -5,6 +5,7 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import IncidentReport from './components/IncidentReport';
 import Admin from './components/Admin';
+import Users from './components/Users';
 import Page1 from './components/Page1';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/users" element={<Users />} />
         <Route path="/profile" element={<Page1 />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/incident-report" element={<IncidentReport />} />

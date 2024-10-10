@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import { supabase } from './supabaseClient'; // Import Supabase client
-import axios from 'axios';
+import axios from 'axios'; // Import axios
 import './Admin.css'; // Make sure to create this CSS file
 
 const Admin = () => {
   const [reports, setReports] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [showUsers, setShowUsers] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
-    // Fetch reports
-    axios.get('/api/reports')
-      .then(response => {
+    // Fetch reports from your reports API (adjust the endpoint as necessary)
+    const fetchReports = async () => {
+      try {
+        const response = await axios.get('/api/reports');
         setReports(response.data);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error fetching reports:', error);
-      });
+      }
+    };
 
-    // Fetch users
-    axios.get('/api/users')
-      .then(response => {
-        setUsers(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching users:', error);
-      });
+    fetchReports(); // Fetch reports on component mount
   }, []);
 
   // Logout function
@@ -37,6 +31,11 @@ const Admin = () => {
       // Redirect to login page or perform other actions after logout
       window.location.href = '/'; // Redirect to the login page
     }
+  };
+
+  // Function to navigate to the Users page
+  const navigateToUsers = () => {
+    navigate('/users'); // Navigate to the Users page
   };
 
   return (
@@ -51,7 +50,6 @@ const Admin = () => {
               <p><strong>Student ID:</strong> {report.studentId}</p>
               <p><strong>Description:</strong> {report.description}</p>
               <p><strong>Date:</strong> {report.date}</p>
-              {/* You can add more details here */}
             </li>
           ))}
         </ul>
@@ -59,20 +57,10 @@ const Admin = () => {
         <p>No reports found.</p>
       )}
       
-      <button onClick={() => setShowUsers(!showUsers)}>
-        {showUsers ? 'Hide Users' : 'Show Users'}
+      {/* Button to navigate to the Users page */}
+      <button onClick={navigateToUsers} className="show-users-button">
+        Show Registered Users
       </button>
-
-      {showUsers && (
-        <div className="user-list">
-          <h3>Registered Users</h3>
-          <ul>
-            {users.map((user) => (
-              <li key={user.id}>{user.name} - {user.email}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };

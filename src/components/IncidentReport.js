@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from './supabaseClient'; // Import your Supabase client
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import './IncidentReport.css'; // Ensure to import your CSS file
 
 const IncidentReport = () => {
@@ -7,6 +8,7 @@ const IncidentReport = () => {
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,41 +22,41 @@ const IncidentReport = () => {
     // Upload the photo to Supabase storage
     const { data: uploadData, error: uploadError } = await supabase
       .storage
-      .from('incident-report-images') // Use your bucket name
-      .upload(`reports/${studentId}/${photo.name}`, photo);
+      .from('incident-report') // Use your bucket name
+      .upload(`private/${studentId}/${photo.name}`, photo); // Upload with studentId as a folder
 
     if (uploadError) {
       setMessage(`Failed to upload image: ${uploadError.message}`);
       return;
     }
 
-    // Get the public URL of the uploaded image (optional, based on your use case)
-    const { publicURL, error: urlError } = supabase
-      .storage
-      .from('incident-report-images')
-      .getPublicUrl(uploadData.path);
-
-    if (urlError) {
-      setMessage(`Failed to get image URL: ${urlError.message}`);
-      return;
-    }
-
-    // Prepare data to send to your server (you can adjust as needed)
+    // Prepare data to send to your Supabase table
     const reportData = {
-      studentId,
-      description,
-      imageUrl: publicURL // Use the public URL of the uploaded image
+      student_id: studentId, // Assuming your column is named 'student_id'
+      description
+      // Removed photo_path since it's not being stored
     };
 
-    // Now send reportData to your backend or Supabase table
-    // Example:
-    // const response = await axios.post('/api/incident-report', reportData);
+    // Send reportData to your Supabase table
+    const { error: insertError } = await supabase
+      .from('incident_report') // Change this to your actual table name
+      .insert([reportData]);
+
+    if (insertError) {
+      setMessage(`Failed to submit report: ${insertError.message}`);
+      return;
+    }
 
     setMessage('Incident report submitted successfully!');
     // Clear form after submission
     setStudentId('');
     setDescription('');
     setPhoto(null);
+  };
+
+  // Function to navigate back to the profile page
+  const handleBack = () => {
+    navigate('/profile'); // Adjust this path to your actual profile page route
   };
 
   return (
@@ -94,6 +96,9 @@ const IncidentReport = () => {
         </div>
       </form>
       {message && <p className="message">{message}</p>}
+      <div className="button-group">
+        <button onClick={handleBack} className="back-button">Back to Profile</button>
+      </div>
     </div>
   );
 };

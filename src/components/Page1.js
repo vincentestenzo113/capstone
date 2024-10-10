@@ -75,7 +75,7 @@ const Page1 = () => {
       <button className="logout-button" onClick={handleLogout}>
         Logout
       </button>
-      <h2 className="login-header">User Information</h2>
+      <h2 className="login-header">Student Information</h2>
       <div className="user-info">
         <p><strong>Student ID:</strong> {userInfo.student_id}</p>
         <p><strong>Name:</strong> {userInfo.name}</p>

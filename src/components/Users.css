@@ -1,0 +1,50 @@
+.users-container {
+    position: relative; /* Set position relative to the container */
+    padding: 20px;
+    background-color: #f8f9fa; /* Light background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+}
+
+.back-button {
+    position: absolute; /* Position it absolutely */
+    top: 20px; /* Adjust top position */
+    right: 20px; /* Adjust right position */
+    padding: 10px 20px;
+    background-color: #060E57; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse; /* Ensure borders collapse */
+    margin-top: 20px; /* Space between heading and table */
+}
+
+.users-table th,
+.users-table td {
+    border: 1px solid #060E57; /* Border color */
+    padding: 10px; /* Padding inside cells */
+    text-align: left; /* Align text to the left */
+}
+
+.users-table th {
+    background-color: #060E57; /* Header background color */
+    color: white; /* Header text color */
+}
+
+.users-table tbody tr:hover {
+    background-color: #f0f0f0; /* Highlight row on hover */
+}
