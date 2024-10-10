@@ -2,7 +2,9 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import axios from 'axios';
+import { supabase } from './supabaseClient'; // Import Supabase client
+import { ToastContainer, toast } from 'react-toastify'; // Import Toast
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for Toast
 import './Login.css'; // Ensure the CSS file is imported
 
 const Login = () => {
@@ -18,23 +20,37 @@ const Login = () => {
     password: Yup.string().required('Password is required'),
   });
 
-  const onSubmit = (values) => {
-    axios.post('/api/login', values)
-      .then(response => {
-        const { email } = response.data;
-        if (email === 'admin@example.com') { 
-          navigate('/admin');
-        } else {
-          navigate('/dashboard');
-        }
-      })
-      .catch(error => {
-        console.log(error);
+  const onSubmit = async (values) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
       });
+
+      if (error) {
+        console.error('Login error:', error.message);
+        toast.error(`Login failed: ${error.message}`); // Notify user of error
+        return;
+      }
+
+      // Check if the logged-in user is the admin
+      const adminEmail = 'admin@gmail.com'; // Replace with your actual admin email
+      if (values.email === adminEmail) {
+        toast.success('Login successful! Redirecting to admin page...');
+        navigate('/admin'); // Redirect to the admin page
+      } else {
+        toast.success('Login successful! Redirecting to dashboard...');
+        navigate('/profile'); // Redirect to the user dashboard
+      }
+    } catch (error) {
+      console.error('Error during login:', error.message);
+      toast.error(`Error: ${error.message}`); // Notify user of error
+    }
   };
 
   return (
     <div className="login-container">
+      <ToastContainer /> {/* ToastContainer to render the notifications */}
       <div className="header">
         <button className="back-button" onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
       </div>

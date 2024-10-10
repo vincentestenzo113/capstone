@@ -1,23 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from './supabaseClient'; // Import Supabase client
 import './Page1.css'; // Ensure to import your CSS file
+import { toast } from 'react-toastify'; // Import Toast for notifications
 
 const Page1 = () => {
   const navigate = useNavigate();
-  
-  // Sample user info; replace this with actual user data
-  const userInfo = {
-    studentId: '123456',
-    name: 'John Doe',
-    email: 'johndoe@example.com',
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      // Get the current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+      if (userError) {
+        console.error('Error getting user:', userError.message);
+        toast.error('Failed to get user data. Please log in again.');
+        navigate('/login');
+        return;
+      }
+
+      if (user) {
+        // Fetch user profile data from the profiles table
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('student_id, name, email')
+          .eq('id', user.id) // Ensure 'id' corresponds to the correct user identifier in your table
+          .limit(1) // Limit to one result
+          .single(); // Fetch a single row
+
+        if (error) {
+          if (error.message.includes("multiple rows returned")) {
+            toast.error('Multiple profiles found. Please contact support.'); // Handle case of multiple rows
+            console.error('Error fetching user data:', error.message);
+          } else {
+            toast.error('Error fetching user profile data.');
+            console.error('Error fetching user data:', error.message);
+          }
+          return;
+        }
+
+        if (!data) {
+          toast.error('User profile not found.'); // Handle case where no data is returned
+          return;
+        }
+
+        setUserInfo(data); // Set the fetched user info
+      } else {
+        navigate('/login'); // Redirect to login if no user is logged in
+      }
+    };
+
+    fetchUserData();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut(); // Sign out the user
+
+    if (error) {
+      console.error('Error signing out:', error.message);
+      toast.error('Error signing out. Please try again.');
+      return;
+    }
+
+    navigate('/login'); // Redirect to login page after logout
   };
 
-  const handleLogout = () => {
-    // Implement your logout logic here (e.g., clear user session, redirect to login page)
-    // For example:
-    // localStorage.removeItem('user');
-    navigate('/login'); // Change this to the actual path for your login page
-  };
+  if (!userInfo) {
+    return <div>Loading...</div>; // Display loading state until user data is fetched
+  }
 
   return (
     <div className="login-container">
@@ -26,7 +77,7 @@ const Page1 = () => {
       </button>
       <h2 className="login-header">User Information</h2>
       <div className="user-info">
-        <p><strong>Student ID:</strong> {userInfo.studentId}</p>
+        <p><strong>Student ID:</strong> {userInfo.student_id}</p>
         <p><strong>Name:</strong> {userInfo.name}</p>
         <p><strong>Email:</strong> {userInfo.email}</p>
       </div>

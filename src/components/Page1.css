@@ -12,53 +12,30 @@
     margin-bottom: 20px;
 }
 
-.user-info {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.login-form {
+/* New container for user info */
+.user-info-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 100%;
     max-width: 400px;
     padding: 20px;
-    border: 3px solid #060E57;
-    border-radius: 15px;
-    background-color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 3px solid #060E57; /* Border color */
+    border-radius: 15px; /* Rounded corners */
+    background-color: white; /* Background color for the container */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-bottom: 20px; /* Space below the container */
 }
 
-.form-group {
+.user-info {
+    text-align: center;
+}
+
+.button-group {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.form-label {
-    font-weight: bold;
-    color: #060E57;
-    text-align: center;
-    width: 100%;
-}
-
-.form-input {
-    padding: 10px;
-    border: 1px solid #060E57;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-.error-message {
-    color: red;
-    margin-top: 5px;
-    text-align: center;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .submit-button {
@@ -76,12 +53,6 @@
 .submit-button:hover {
     background-color: #f0f0f0;
     color: #060E57;
-}
-
-.button-group {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
 }
 
 .logout-button {

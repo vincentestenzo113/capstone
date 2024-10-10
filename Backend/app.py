@@ -4,7 +4,7 @@ import rfid_reader  # Import RFID reading functions
 app = Flask(__name__)
 
 # In-memory storage for parking slots and RFID tags (for demonstration)
-PARKING_SLOTS = 50  # Initial number of slots
+PARKING_SLOTS = 100  # Initial number of slots
 parked_vehicles = set()  # To track parked vehicles by RFID
 
 @app.route('/api/parking/enter', methods=['POST'])

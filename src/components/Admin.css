@@ -30,3 +30,17 @@
 .user-list h3 {
     color: #060E57;
 }
+
+.logout-button {
+    background-color: #060E57; /* Same as the border color */
+    color: white; /* Text color */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px; /* Add some space below the button */
+}
+
+.logout-button:hover {
+    background-color: #0a1c88; /* Darker shade for hover effect */
+}

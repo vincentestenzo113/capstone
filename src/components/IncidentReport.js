@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { supabase } from './supabaseClient'; // Import your Supabase client
 import './IncidentReport.css'; // Ensure to import your CSS file
 
 const IncidentReport = () => {
@@ -8,25 +8,53 @@ const IncidentReport = () => {
   const [photo, setPhoto] = useState(null);
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('studentId', studentId);
-    formData.append('description', description);
-    formData.append('photo', photo);
+    // Check if the photo is selected
+    if (!photo) {
+      setMessage('Please upload a photo.');
+      return;
+    }
 
-    axios.post('/api/incident-report', formData) // Adjusted URL to be relative
-      .then(response => {
-        setMessage('Incident report submitted successfully!');
-        // Clear form after submission
-        setStudentId('');
-        setDescription('');
-        setPhoto(null);
-      })
-      .catch(error => {
-        setMessage(error.response?.data?.error || 'Error submitting incident report');
-      });
+    // Upload the photo to Supabase storage
+    const { data: uploadData, error: uploadError } = await supabase
+      .storage
+      .from('incident-report-images') // Use your bucket name
+      .upload(`reports/${studentId}/${photo.name}`, photo);
+
+    if (uploadError) {
+      setMessage(`Failed to upload image: ${uploadError.message}`);
+      return;
+    }
+
+    // Get the public URL of the uploaded image (optional, based on your use case)
+    const { publicURL, error: urlError } = supabase
+      .storage
+      .from('incident-report-images')
+      .getPublicUrl(uploadData.path);
+
+    if (urlError) {
+      setMessage(`Failed to get image URL: ${urlError.message}`);
+      return;
+    }
+
+    // Prepare data to send to your server (you can adjust as needed)
+    const reportData = {
+      studentId,
+      description,
+      imageUrl: publicURL // Use the public URL of the uploaded image
+    };
+
+    // Now send reportData to your backend or Supabase table
+    // Example:
+    // const response = await axios.post('/api/incident-report', reportData);
+
+    setMessage('Incident report submitted successfully!');
+    // Clear form after submission
+    setStudentId('');
+    setDescription('');
+    setPhoto(null);
   };
 
   return (
