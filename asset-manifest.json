@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/vincentestenzo113/capstone/static/css/main.891667b8.css",
+    "main.js": "/vincentestenzo113/capstone/static/js/main.f5222093.js",
+    "static/js/952.9d22f4cc.chunk.js": "/vincentestenzo113/capstone/static/js/952.9d22f4cc.chunk.js",
+    "static/js/453.7b154009.chunk.js": "/vincentestenzo113/capstone/static/js/453.7b154009.chunk.js",
+    "index.html": "/vincentestenzo113/capstone/index.html",
+    "main.891667b8.css.map": "/vincentestenzo113/capstone/static/css/main.891667b8.css.map",
+    "main.f5222093.js.map": "/vincentestenzo113/capstone/static/js/main.f5222093.js.map",
+    "952.9d22f4cc.chunk.js.map": "/vincentestenzo113/capstone/static/js/952.9d22f4cc.chunk.js.map",
+    "453.7b154009.chunk.js.map": "/vincentestenzo113/capstone/static/js/453.7b154009.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.891667b8.css",
+    "static/js/main.f5222093.js"
+  ]
+}
