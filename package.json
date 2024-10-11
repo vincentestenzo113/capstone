@@ -1,7 +1,6 @@
 {
   "name": "capstone",
   "version": "0.1.0",
-  "homepage": "https://github.com/vincentestenzo113/capstone",
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
